@@ -10,6 +10,9 @@ const config = {
       dbUser: process.env.DATABASE_USER,
       dbPassword: process.env.DATABASE_PASSWORD,
       dbHost: process.env.DATABASE_HOST,
+    },
+    jwt: {
+      secret: process.env.JWT_SECRET
     }
 }
 

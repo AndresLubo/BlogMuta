@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const passport = require('passport');
 const PostService = require('../post/post.service.js');
 const { validatorHandler } = require('../../middlewares/validator.handler.js');
 const {
@@ -10,17 +11,22 @@ const {
 const router = Router();
 const service = new PostService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const posts = await service.getAll();
-    res.json(posts);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const posts = await service.getAll();
+      res.json(posts);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getPostSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -35,6 +41,7 @@ router.get(
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createPostSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -49,6 +56,7 @@ router.post(
 
 router.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getPostSchema, 'params'),
   validatorHandler(updatePostSchema, 'body'),
   async (req, res, next) => {
@@ -66,6 +74,7 @@ router.put(
 
 router.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getPostSchema, 'params'),
   async (req, res, next) => {
     try {

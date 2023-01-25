@@ -6,6 +6,7 @@ const { logErrors, ormErrorHandler, boomErrorHandler, errorHandler } = require('
 const { routerApi } = require('./router/router.js');
 
 app.use(express.json());
+require('./passport/passport.index.js');
 
 routerApi(app);
 
@@ -15,6 +16,4 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 
-app.listen(config.app.port, () =>
-  console.log(`BlogMuta corriendo en el puerto ${config.app.port}`)
-);
+app.listen(config.app.port);

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const passport = require('passport');
 const CommentService = require('./comment.service.js');
 const { validatorHandler } = require('../../middlewares/validator.handler.js');
 const {
@@ -12,6 +13,7 @@ const service = new CommentService();
 
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCommentSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -26,6 +28,7 @@ router.get(
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createCommentSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -40,6 +43,7 @@ router.post(
 
 router.put(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCommentSchema, 'params'),
   validatorHandler(updateCommentSchema, 'body'),
   async (req, res, next) => {
@@ -57,6 +61,7 @@ router.put(
 
 router.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCommentSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -68,4 +73,6 @@ router.delete(
     }
   }
 );
+
+
 module.exports = router;

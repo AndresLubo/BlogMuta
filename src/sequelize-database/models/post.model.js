@@ -67,6 +67,13 @@ class Post extends Model {
 
 
     this.hasOne(models.Comment, {as: 'comment', foreignKey: 'postId'})
+
+    this.belongsToMany(models.User, {
+      as: 'likes',
+      through: models.Like,
+      foreignKey: 'postId',
+      otherKey: 'userId'
+    })
   }
 
   static config(sequelize) {
