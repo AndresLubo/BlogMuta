@@ -11,21 +11,21 @@ const UserSchema = {
   },
   email: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     unique: true,
   },
   password: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
   },
   recoveryToken: {
     field: 'recovery_token',
     allowNull: true,
-    type: DataTypes.STRING,
+    type: DataTypes.UUID(),
   },
   nickname: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
   },
   createdAt: {
     allowNull: false,

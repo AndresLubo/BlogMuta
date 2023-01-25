@@ -23,7 +23,7 @@ const PostSchema = {
   },
   content: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   state: {
     allowNull: false,
@@ -67,7 +67,6 @@ class Post extends Model {
 
 
     this.hasOne(models.Comment, {as: 'comment', foreignKey: 'postId'})
-    this.hasOne(models.PostLabel, {as: 'postLabel', foreignKey: 'postId'})
   }
 
   static config(sequelize) {
