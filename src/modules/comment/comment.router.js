@@ -6,6 +6,8 @@ const {
   getCommentSchema,
   createCommentSchema,
   updateCommentSchema,
+  getCommentsByPost,
+  getCommentsByUser,
 } = require('../../schemas/comment.schema.js');
 
 const router = Router();
@@ -20,6 +22,46 @@ router.get(
       const { id } = req.params;
       const comment = await service.getOne(id);
       res.json(comment);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/post/:postId',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(getCommentsByPost, 'params'),
+  async (req, res, next) => {
+    try {
+      const { postId } = req.params;
+
+      const filterPostId = {
+        where: { postId: parseInt(postId) },
+      };
+
+      const comments = await service.getAll({ filterPostId });
+      res.json(comments);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  '/user/:userId',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(getCommentsByUser, 'params'),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      const filterUserId = {
+        where: { userId: parseInt(userId) },
+      };
+
+      const comments = await service.getAll({ filterUserId });
+      res.json(comments);
     } catch (error) {
       next(error);
     }
@@ -73,6 +115,5 @@ router.delete(
     }
   }
 );
-
 
 module.exports = router;

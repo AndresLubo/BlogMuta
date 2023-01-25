@@ -5,6 +5,7 @@ const postRouter = require('../modules/post/post.router.js');
 const userRouter = require('../modules/user/user.router.js');
 const commentRouter = require('../modules/comment/comment.router.js');
 const authRouter = require('../modules/auth/auth.router.js');
+const likeRouter = require('../modules/like/like.router.js');
 
 const routerApi = (app) => {
   const router = Router();
@@ -16,6 +17,7 @@ const routerApi = (app) => {
   router.use('/users', userRouter);
   router.use('/comments', commentRouter);
   router.use('/auth', authRouter);
+  router.use('/likes', likeRouter);
 };
 
 module.exports = { routerApi };

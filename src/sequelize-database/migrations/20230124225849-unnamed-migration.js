@@ -17,10 +17,10 @@ module.exports = {
   },
 
   async down(queryInterface) {
+    await queryInterface.dropTable(LIKE_TABLE);
+    await queryInterface.dropTable(COMMENT_TABLE);
+    await queryInterface.dropTable(POST_TABLE);
     await queryInterface.dropTable(CATEGORY_TABLE);
     await queryInterface.dropTable(USER_TABLE);
-    await queryInterface.dropTable(LIKE_TABLE);
-    await queryInterface.dropTable(POST_TABLE);
-    await queryInterface.dropTable(COMMENT_TABLE);
   },
 };

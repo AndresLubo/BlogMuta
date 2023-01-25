@@ -1,9 +1,34 @@
 const boom = require('@hapi/boom');
 const { models } = require('../../sequelize-database/sequelize.index.js');
 
+const UserService = require('../user/user.service');
+const userService = new UserService();
+
+const CategoryService = require('../category/category.service');
+const categoryService = new CategoryService();
+
 class PostService {
-  async getAll() {
-    const posts = await models.Post.findAll();
+  async getAll(query = {}) {
+    let options = {};
+
+    const { filterCategoryId, filterUserId } = query;
+
+    if(filterCategoryId){
+      options = {
+        ...options,
+        ...filterCategoryId
+      }
+    }
+
+    if(filterUserId){
+      options = {
+        ...options,
+        ...filterUserId
+      }
+    }
+
+
+    const posts = await models.Post.findAll(options);
     return posts;
   }
 
@@ -15,11 +40,17 @@ class PostService {
   }
 
   async create(data) {
+    await userService.getOne(data.userId);
+    await categoryService.getOne(data.categoryId);
+
+
     const newPost = await models.Post.create(data);
     return newPost;
   }
 
   async update(id, changes) {
+    if(changes.categoryId)  await categoryService.getOne(changes.categoryId);
+
     const post = await this.getOne(id);
     const response = await post.update(changes);
     return response;

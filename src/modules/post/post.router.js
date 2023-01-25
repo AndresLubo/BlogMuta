@@ -6,6 +6,8 @@ const {
   getPostSchema,
   createPostSchema,
   updatePostSchema,
+  getPostByCategory,
+  getPostByUser,
 } = require('../../schemas/post.schema.js');
 
 const router = Router();
@@ -38,6 +40,48 @@ router.get(
     }
   }
 );
+
+router.get(
+  '/categories/:categoryId',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(getPostByCategory, 'params'),
+  async (req, res, next) => {
+    try {
+      const { categoryId } = req.params;
+
+      const filterCategoryId = {
+        where: { categoryId: parseInt(categoryId) },
+      };
+
+      const posts = await service.getAll({ filterCategoryId });
+      res.json(posts);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+router.get(
+  '/user/:userId',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(getPostByUser, 'params'),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      const filterUserId = {
+        where: { userId: parseInt(userId) },
+      };
+
+      const posts = await service.getAll({ filterUserId });
+      res.json(posts);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 router.post(
   '/',

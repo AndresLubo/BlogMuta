@@ -9,6 +9,14 @@ const getCommentSchema = Joi.object({
   id: id.required(),
 });
 
+const getCommentsByPost = Joi.object({
+  postId: postId.required(),
+});
+
+const getCommentsByUser = Joi.object({
+  userId: userId.required(),
+});
+
 const createCommentSchema = Joi.object({
   body: body.required(),
   userId: userId.required(),
@@ -23,4 +31,6 @@ module.exports = {
   getCommentSchema,
   createCommentSchema,
   updateCommentSchema,
+  getCommentsByPost,
+  getCommentsByUser
 };

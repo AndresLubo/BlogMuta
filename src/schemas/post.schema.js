@@ -12,6 +12,14 @@ const getPostSchema = Joi.object({
   id: id.required(),
 });
 
+const getPostByCategory = Joi.object({
+  categoryId: categoryId.required(),
+})
+
+const getPostByUser = Joi.object({
+  userId: userId.required(),
+})
+
 const createPostSchema = Joi.object({
   title: title.required(),
   publicationDate: publicationDate.required(),
@@ -25,12 +33,13 @@ const updatePostSchema = Joi.object({
   publicationDate: publicationDate,
   content: content,
   state: state,
-  userId: userId,
   categoryId: categoryId,
 });
 
 module.exports = {
   getPostSchema,
   createPostSchema,
-  updatePostSchema
+  updatePostSchema,
+  getPostByCategory,
+  getPostByUser
 }
